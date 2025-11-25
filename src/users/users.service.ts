@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     return this.prismaService.user.create({
       data: {
         ...createUserDto,
