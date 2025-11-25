@@ -1,73 +1,109 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Auth
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma API de autenticação utilizando NestJS, Prisma e PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Pré-requisitos
 
-## Description
+- [Node.js](https://nodejs.org/) >= 18
+- [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/) (opcional, para subir o banco de dados)
+- [PostgreSQL](https://www.postgresql.org/) (caso não use Docker)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Instalação
 
-## Installation
+1. **Clone o repositório**
+   ```sh
+   git clone https://github.com/seu-usuario/nestjs-auth.git
+   cd nestjs-auth
+   ```
 
-```bash
-$ npm install
+2. **Instale as dependências**
+   ```sh
+   npm install
+   ```
+
+## Banco de Dados
+
+Você pode subir o PostgreSQL localmente ou via Docker.
+
+### Usando Docker
+
+```sh
+docker-compose up -d
 ```
 
-## Running the app
+### Manualmente
 
-```bash
-# development
-$ npm run start
+Crie um banco chamado `nest-auth` e configure o usuário e senha.
 
-# watch mode
-$ npm run start:dev
+## Configuração das variáveis de ambiente
 
-# production mode
-$ npm run start:prod
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+
+```
+DATABASE_URL="postgresql://root:root@localhost:5432/nest-auth"
+JWT_SECRET="sua_chave_secreta"
 ```
 
-## Test
+Altere os valores conforme sua configuração.
 
-```bash
-# unit tests
-$ npm run test
+## Prisma
 
-# e2e tests
-$ npm run test:e2e
+1. **Execute as migrações**
+   ```sh
+   npx prisma migrate deploy
+   ```
 
-# test coverage
-$ npm run test:cov
+2. **Gere o Prisma Client**
+   ```sh
+   npx prisma generate
+   ```
+
+## Rodando o Projeto
+
+```sh
+npm run start:dev
 ```
 
-## Support
+A API estará disponível em `http://localhost:3000`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Endpoints
 
-## Stay in touch
+- `POST /auth/login`  
+  Autenticação de usuário.  
+  **Body:**
+  ```json
+  {
+    "email": "usuario@email.com",
+    "password": "senha"
+  }
+  ```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Testes
 
-## License
+Para rodar os testes:
 
-Nest is [MIT licensed](LICENSE).
+```sh
+npm run test
+```
+
+## Estrutura do Projeto
+
+```
+src/
+  auth/
+    auth.controller.ts
+    auth.service.ts
+    login.dto.ts
+  prisma/
+    prisma.service.ts
+  main.ts
+prisma/
+  schema.prisma
+.env
+```
+
+## Observações
+
+- Certifique-se de que o banco está rodando antes de iniciar o projeto.
+- Se alterar o schema do Prisma, rode novamente `npx prisma generate`.
