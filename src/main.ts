@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-
 // inicia aplicação NestJS
 async function bootstrap() {
   // recebe um modulo apra criar a instancia da aplicação
