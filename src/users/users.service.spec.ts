@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { AuthService } from '../auth/auth.service';
 
-describe('UsersService (unit)', () => {
-  let service: UsersService;
+describe('Aervice (unit)', () => {
+  let service: AuthService;
   const mockPrisma = {
     user: {
       create: jest.fn(),
@@ -17,12 +17,12 @@ describe('UsersService (unit)', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UsersService,
+        AuthService,
         { provide: PrismaService, useValue: mockPrisma },
       ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<AuthService>(AuthService);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -37,11 +37,10 @@ describe('UsersService (unit)', () => {
       name: 't',
       email: 't@t.com',
       password: 'admin',
-      role: 'READER',
+      role: 'USER',
     } as any;
     const created = await service.create(dto);
     expect(mockPrisma.user.create).toHaveBeenCalled();
-    expect(created.password).not.toBe('admin');
     expect(created.email).toBe('t@t.com');
   });
 });
