@@ -6,21 +6,16 @@
 
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-enum Roles {
+enum Role {
+  USER
+  MANAGER
   ADMIN
-  EDITOR
-  WRITER
-  READER
-  
-
 }
 
 // representa uma tabela do banco
@@ -30,7 +25,7 @@ model User {
   email     String   @unique
   name      String
   password  String
-  role      String   @default("READER") // user, admin, etc.
+  role      Role   @default(USER) // user, admin, etc.
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
