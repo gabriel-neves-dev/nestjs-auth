@@ -1,0 +1,7 @@
+export class CreateUserDto {
+  name: string;
+  email: string;
+  password: string;
+}
+// dto -> data transfer object
+// sõ tem dados, sem lõgica, possivel transferir entre camadas do projeto
